@@ -34,10 +34,9 @@ public class WordCountCrawlerTests {
 
         Map<String, Integer> wordCounts = crawler.getWordCounts(url);
 
-        assertTrue(wordCounts.getOrDefault("STOCKS", 0) >= 2);
+        assertTrue(wordCounts.getOrDefault("STOCKS", 0) >= 1);
         assertTrue(wordCounts.getOrDefault("NEWS", 0) >= 2);
         assertTrue(wordCounts.getOrDefault("DOW", 0) >= 2);
-        assertTrue(wordCounts.getOrDefault("TRUMP", 0) >= 1);
     }
 
     @Test
