@@ -39,3 +39,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+System Rules (https://stefanbirkner.github.io/system-rules/license.html)
+========================================================================
+System Rules is published under the Common Public License 1.0. It is the same license that is used by JUnit 4.0 to 4.11
+(JUnit 4.12 uses Eclipse Public License).
+
+
+mockito (https://github.com/mockito/mockito/wiki/License)
+=========================================================
+The MIT License (see above)
