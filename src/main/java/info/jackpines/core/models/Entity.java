@@ -2,14 +2,17 @@ package info.jackpines.core.models;
 
 import java.util.UUID;
 
-public class Model {
+public abstract class Entity {
+
     private UUID id;
 
-    public Model(UUID id) {
+    Entity(UUID id) {
         this.id = id;
     }
 
     public UUID getId() {
         return id;
     }
+
+    public abstract String getTableName();
 }
