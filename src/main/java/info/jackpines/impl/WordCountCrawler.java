@@ -14,21 +14,16 @@ public class WordCountCrawler implements WordCounter {
     private static final int TIMEOUT = 30000; // TODO: implement configuration feature
 
     @Override
-    public Map<String, Integer> getWordCounts(URL url) {
+    public Map<String, Integer> getWordCounts(final URL url) throws IOException {
 
-        String docText = null;
-
-        try {
-            final Document doc = Jsoup.parse(url, TIMEOUT);
-            docText = doc.text();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
+        final Document doc = Jsoup.parse(url, TIMEOUT);
+        String docText = doc.text();
 
         if (docText == null || docText.isEmpty()) { return new HashMap<>(); }
 
         docText = docText
-                .replaceAll("['.,!:?|&+/;\\-><=—–]+\\s+|…|\\.\"|\\?\"|!\"|[{(\"“”)}]|\\.\\.+|\\s+[']", " ")
+                .replaceAll("['.,!:?|&+/;\\-><=—–]+\\s+|…|\\.\"|\\?\"|!\"|[{(\"“”)}]|\\.\\.+|\\s+[']",
+                        " ")
                 .replaceAll("[‘’]", "'");
         final String[] words = docText.split("\\s+");
         final Map<String, Integer> wordCounts = new HashMap<>();

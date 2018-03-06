@@ -8,15 +8,15 @@ public class SiteWordCounts extends Entity {
 
     private static final String TABLE_NAME = "SiteWordCounts";
 
-    private URL site;
+    private final URL site;
 
-    private Map<String, Integer> wordCounts;
+    private final Map<String, Integer> wordCounts;
 
-    public SiteWordCounts(URL site, Map<String, Integer> wordCounts) {
+    public SiteWordCounts(final URL site, final Map<String, Integer> wordCounts) {
         this(null, site, wordCounts);
     }
 
-    public SiteWordCounts(UUID id, URL site, Map<String, Integer> wordCounts) {
+    SiteWordCounts(final UUID id, final URL site, final Map<String, Integer> wordCounts) {
         super(id);
 
         this.site = site;

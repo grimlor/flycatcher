@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface Persistence {
 
-    boolean storeEntity(Entity entity);
+    Entity storeEntity(Entity entity);
 
     List<Entity> retrieveEntities(Class entityClass);
 

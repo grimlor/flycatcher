@@ -3,7 +3,7 @@ package info.jackpines.impl;
 import info.jackpines.core.interfaces.WordCounter;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class WordCountCrawlerTests {
 
     @Test
-    public void getWordCountsSucceeds() throws MalformedURLException {
+    public void getWordCountsSucceeds() throws IOException {
         URL url = new URL("https://lipsum.com");
         WordCounter crawler = new WordCountCrawler();
 
@@ -28,7 +28,7 @@ public class WordCountCrawlerTests {
     }
 
     @Test
-    public void getWordCountsHandlesDynamicPage() throws MalformedURLException {
+    public void getWordCountsHandlesDynamicPage() throws IOException {
         URL url = new URL("https://www.google.com/finance");
         WordCounter crawler = new WordCountCrawler();
 
@@ -40,7 +40,7 @@ public class WordCountCrawlerTests {
     }
 
     @Test
-    public void anotherDynamicPage() throws MalformedURLException {
+    public void anotherDynamicPage() throws IOException {
         URL url = new URL("http://www.starwars.com");
         WordCounter crawler = new WordCountCrawler();
 

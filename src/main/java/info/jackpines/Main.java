@@ -15,9 +15,13 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class Main {
 
-    public static MessageQueue queue;
-
     private static ActorSystem system;
+
+    private static MessageQueue queue;
+
+    public static void setMessageQueue(final MessageQueue mQueue) {
+        queue = mQueue;
+    }
 
     public static void main(String[] args) {
         try {
@@ -27,28 +31,28 @@ public class Main {
             System.exit(64);
         }
 
-        queue = new SimpleMessageQueue(new LinkedBlockingQueue<>());
+        if (queue == null) {
+            queue = new SimpleMessageQueue(new LinkedBlockingQueue<>());
+        }
+
+        // TODO: This code would be replaced by some mechanism for inserting into the queue,
+        // eg. RESTful API
+        for (String urlString : args) {
+            try {
+                queue.add(new URL(urlString));
+            } catch (MalformedURLException e) {
+                System.err.println(urlString + " is not a valid URL.");
+            }
+        }
 
         system = ActorSystem.create("flycatcher");
-        Props supervisorProps = Props.create(Supervisor.class);
-        ActorRef supervisor = system.actorOf(supervisorProps, "supervisor");
+        final Props supervisorProps = Supervisor.props(queue);
+        final ActorRef supervisor = system.actorOf(supervisorProps, "supervisor");
 
         try {
-            // TODO: This code would be replaced by some mechanism for inserting into the queue,
-            // eg. RESTful API
-            for (String urlString : args) {
-                try {
-                    queue.add(new URL(urlString));
-                } catch (MalformedURLException e) {
-                    System.err.println(urlString + " is not a valid URL.");
-                }
+            while (!queue.isEmpty()) {
+                supervisor.tell(queue.take(), supervisor);
             }
-
-            while (true) {
-                Object message = queue.take();
-                supervisor.tell(message, supervisor);
-            }
-
         } catch (InterruptedException e) {
             System.err.println(e.getMessage());
         } finally {
