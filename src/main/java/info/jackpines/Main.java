@@ -8,12 +8,18 @@ import info.jackpines.core.interfaces.MessageQueue;
 import info.jackpines.impl.SimpleMessageQueue;
 import org.apache.commons.validator.ValidatorException;
 import org.apache.commons.validator.routines.UrlValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import static java.lang.Thread.sleep;
+
 public class Main {
+
+    private static Logger logger = LoggerFactory.getLogger(Main.class);
 
     private static ActorSystem system;
 
@@ -27,7 +33,7 @@ public class Main {
         try {
             validate(args);
         } catch (ValidatorException e) {
-            System.err.println(e.getMessage());
+            logger.error(e.getMessage());
             System.exit(64);
         }
 
@@ -41,7 +47,7 @@ public class Main {
             try {
                 queue.add(new URL(urlString));
             } catch (MalformedURLException e) {
-                System.err.println(urlString + " is not a valid URL.");
+                logger.error("{} is not a valid URL.", urlString);
             }
         }
 
@@ -52,9 +58,10 @@ public class Main {
         try {
             while (!queue.isEmpty()) {
                 supervisor.tell(queue.take(), supervisor);
+                sleep(600);
             }
         } catch (InterruptedException e) {
-            System.err.println(e.getMessage());
+            logger.error(e.getMessage());
         } finally {
             system.terminate();
         }
@@ -69,7 +76,7 @@ public class Main {
             try {
                 validate(arg);
             } catch (MalformedURLException e) {
-                System.err.println(arg + " is not a valid URL.");
+                logger.error("{} is not a valid URL.", arg);
             }
         }
     }

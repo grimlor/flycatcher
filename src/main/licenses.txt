@@ -50,3 +50,13 @@ System Rules is published under the Common Public License 1.0. It is the same li
 mockito (https://github.com/mockito/mockito/wiki/License)
 =========================================================
 The MIT License (see above)
+
+
+gradle (https://github.com/gradle/gradle/blob/master/LICENSE)
+=============================================================
+Apache License 2.0 (see above)
+
+
+slf4j (https://www.slf4j.org/license.html)
+==========================================
+MIT License

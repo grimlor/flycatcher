@@ -5,6 +5,8 @@ import akka.japi.pf.DeciderBuilder;
 import info.jackpines.core.interfaces.MessageQueue;
 import info.jackpines.core.models.Entity;
 import info.jackpines.core.models.SiteWordCounts;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import scala.concurrent.duration.Duration;
 
 import java.io.IOException;
@@ -14,6 +16,8 @@ import java.util.concurrent.TimeUnit;
 
 public class Supervisor extends AbstractActor {
 
+    private static Logger logger = LoggerFactory.getLogger(Supervisor.class);
+
     private final MessageQueue queue;
 
     private static SupervisorStrategy strategy =
@@ -21,7 +25,7 @@ public class Supervisor extends AbstractActor {
                     // TODO: identify types of exceptions to handle gracefully
                     DeciderBuilder
                             .match(IOException.class, e -> {
-                                System.err.println(e.getMessage());
+                                logger.error(e.getMessage());
                                 return SupervisorStrategy.resume();
                             })
                             .matchAny(o -> SupervisorStrategy.escalate())
@@ -48,15 +52,14 @@ public class Supervisor extends AbstractActor {
                     getSender().tell(url, crawler);
                 })
                 .match(SiteWordCounts.class, siteWordCounts -> {
-                    System.out.println(siteWordCounts.getSite().toString() + ": " + siteWordCounts.getSite());
+                    logger.info("{}: {}", siteWordCounts.getSite().toString(), siteWordCounts.getWordCounts().size());
                     for (Map.Entry<String, Integer> wordCount : siteWordCounts.getWordCounts().entrySet()) {
-                        System.out.println(wordCount.getKey() + ": " + wordCount.getValue());
+                        logger.info("{}: {}", wordCount.getKey(), wordCount.getValue());
                     }
-                    System.out.println();
                 })
                 .match(Entity.class, entity -> {
                     // TODO: persist results in lieu of above printing out of results
-                    System.out.println("Entity received");
+                    logger.info("Entity received");
                 })
                 .match(Props.class, props -> getSender().tell(getContext().actorOf(props), getSelf()))
                 .build();
